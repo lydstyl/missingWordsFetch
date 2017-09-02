@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>Recherche des mots manquants</title>
+    <link rel="stylesheet" type="text/css" href="missingWordFetch_fichiers/bootstrap.css">
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <style type="text/css">
+        body, h1, textarea, div{
+            width : 90%;
+            margin: 20px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="col-sm-10 col-sm-offset-1 col-md-6 col-md-offset-3"><h1>Recherche des mots manquants</h1></div> -->
+    <h1>Recherche des mots manquants</h1>
+    <div>Entrez des mots dans les zones de texte ci-dessous afin d'obtenir les mots manquants dans la deuxième zone.</div>  
+    <textarea id="str1" rows="4" cols="150">exemple un truc muche</textarea>
+    <textarea id="str2" rows="4" cols="150">exemple truc</textarea>
+    <div>Mots manquants présents dans la première zone de texte et manquants dans la deuxième :</div>  
+    <div id="manquants">muche<br>un</div>
+    <script src="missingWordFetch_fichiers/jquery-3.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="js.js"></script> -->
+    <script>
+        // Retourne les mots manquants trouvés dans la chaine1 mais pas dans la 2
+        function missingWordsInStr1(){
+            $('textarea').on('change', function(){
+                var chaine1 = $('#str1').val();
+                var chaine2 = $('#str2').val();
+                var tab1 = chaine1.split(' ');
+                var tab2 = chaine2.split(' ');
+                var tabMotsManquants = [];
+                var motManquant;
+                for(var i = 0, il = tab1.length; i < il; i++){
+                    var mot1 = tab1[i];
+                    motManquant = true;
+                    for(var j = 0, jl = tab2.length; j < jl; j++){
+                        var mot2 = tab2[j];
+                        if(mot1 === mot2){
+                            motManquant = false;
+                            break;
+                        }
+                    }
+                    if(motManquant){
+                        tabMotsManquants.push(mot1)
+                    }
+                }
+                var strFromArr = tabMotsManquants.sort().toString();
+                strFromArr = strFromArr.replace(/,/g, '\n');
+                console.log(strFromArr);
+                strFromArr = strFromArr.replace(/\n/g, '<br>');
+                $('#manquants').html(strFromArr);
+                return strFromArr;
+            });
+        }
+
+        missingWordsInStr1();
+    </script>
+
+</body></html>
